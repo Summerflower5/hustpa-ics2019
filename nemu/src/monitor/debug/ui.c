@@ -51,6 +51,21 @@ static int cmd_si(char *args) {
   return 0;
 }
 
+static int cmd_info(char *args) {
+  char *op = strtok(NULL, " ");
+
+  if(op == NULL) {
+    printf("Unknown command info with no args!\n");
+  }else if(strcmp(op , "r") == 0) {
+    isa_reg_display();
+  }else if(strcmp(op , "w") == 0) {
+    //TODO
+
+  }
+
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -62,6 +77,7 @@ static struct {
 
   /* TODO: Add more commands */
   { "si", "Step one instruction exactly" , cmd_si},
+  { "info", "Generic command for showing things about the program being debugged" , cmd_info },
 
 };
 

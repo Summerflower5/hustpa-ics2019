@@ -55,7 +55,7 @@ static int cmd_info(char *args) {
   char *op = strtok(NULL, " ");
 
   if(op == NULL) {
-    printf("Unknown command info with no args!\n");
+    printf("Command info needs args!\n");
   }else if(strcmp(op , "r") == 0) {
     isa_reg_display();
   }else if(strcmp(op , "w") == 0) {
@@ -63,6 +63,26 @@ static int cmd_info(char *args) {
 
   }
 
+  return 0;
+}
+
+static int cmd_x(char *args){
+  char *N = strtok(NULL, " ");
+  char *addr = strtok(NULL, " ");
+  if(N == NULL || addr == NULL){
+    printf("Command x needs two args!\n");
+    return 0;
+  }
+  int n = atoi(N);
+  paddr_t addr_s = (paddr_t)strtol(addr , NULL , 16);
+  for(int i = 0 ; i < n ; i++){
+    printf("0x%08x: ", addr_s);
+    for(int j = 0 ; j < 4 ; j++){
+      printf("0x%02x ", paddr_read(addr_s , 1));
+      addr_s++;
+    }
+    printf("\n");
+  }
   return 0;
 }
 
@@ -78,6 +98,7 @@ static struct {
   /* TODO: Add more commands */
   { "si", "Step one instruction exactly" , cmd_si},
   { "info", "Generic command for showing things about the program being debugged" , cmd_info },
+  { "x", "Examine memory" , cmd_x},
 
 };
 

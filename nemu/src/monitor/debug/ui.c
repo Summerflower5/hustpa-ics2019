@@ -86,6 +86,17 @@ static int cmd_x(char *args){
   return 0;
 }
 
+static int cmd_p(char *args){
+  bool success = true;
+  uint32_t result = expr(args , &success);
+  if(!success){
+    printf("Invalid expr!\n");
+  }else{
+    printf("value = %u\n", result);
+  }
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -99,7 +110,7 @@ static struct {
   { "si", "Step one instruction exactly" , cmd_si},
   { "info", "Generic command for showing things about the program being debugged" , cmd_info },
   { "x", "Examine memory" , cmd_x},
-
+  { "p", "Print value of expression EXP" , cmd_p},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))

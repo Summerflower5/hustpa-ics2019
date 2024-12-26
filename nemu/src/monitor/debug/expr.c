@@ -239,6 +239,27 @@ int find_main_op(int start, int end){
       pos = i;
     }
   }
+  res = 0;
+  if(priority == 2){
+    for(int i = start ; i <= end ; i++){
+      if(tokens[i].type == '('){
+        res++;
+      }else if(tokens[i].type == ')'){
+        res--;
+      }
+      if(res != 0){
+        continue;
+      }
+
+      if(tokens[i].type == TK_NEG || tokens[i].type == TK_NOT || tokens[i].type == TK_POINT){
+        pos = i;
+        break;
+      }
+    }
+  }
+
+  // attention! '*' '-' '!' combined from right to left! so the main operator should be in left!
+  // e.g. - *$t0 , if you choose * , then '-' will be ignored!
 
   Assert((pos != -1 && priority != 0) , "cannot find main operator!");
   return pos;
@@ -322,11 +343,24 @@ uint32_t eval(int start, int end, bool *success){
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
+    printf("Invalid tokens!\n");
     return 0;
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  for(int i = 0 ; i < nr_token ; i++){
+    if(tokens[i].type == '-' && (i == 0 || tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_HEX_NUM && tokens[i-1].type != TK_REG)){
+      tokens[i].type = TK_NEG;
+    }
+    if(tokens[i].type == '*' && (i == 0 || tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_HEX_NUM && tokens[i-1].type != TK_REG)){
+      tokens[i].type = TK_POINT;
+    }
+  }
+
+  uint32_t result = eval(0 , nr_token-1 , success);
+  if(!(*success)){
+    printf("evaluate failed!\n");
+  }
 
   return 0;
 }

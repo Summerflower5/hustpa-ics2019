@@ -362,5 +362,5 @@ uint32_t expr(char *e, bool *success) {
     printf("evaluate failed!\n");
   }
 
-  return 0;
+  return result;
 }

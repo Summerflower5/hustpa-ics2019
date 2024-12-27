@@ -8,6 +8,8 @@ const uint32_t isa_default_img [] = {
   //0x0002a023,  // sw  zero,0(t0)
   0x0062a023,  // sw t1,0(t0)
   0x0002a503,  // lw  a0,0(t0)
+  0x0002a023,  // sw  zero,0(t0)
+  0x0002a503,  // lw  a0,0(t0)
   0x0000006b,  // nemu_trap
 };
 const long isa_default_img_size = sizeof(isa_default_img);

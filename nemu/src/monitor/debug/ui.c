@@ -60,7 +60,7 @@ static int cmd_info(char *args) {
     isa_reg_display();
   }else if(strcmp(op , "w") == 0) {
     //TODO
-
+    display_watchpoints();
   }
 
   return 0;

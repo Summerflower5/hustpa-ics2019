@@ -97,6 +97,26 @@ static int cmd_p(char *args){
   return 0;
 }
 
+static int cmd_w(char *args){
+  if(args == NULL){
+    printf("Watchpoint needs args!\n");
+    return 0;
+  }
+  WP* wp = new_wp(args);
+  printf("Set watchpoint %d : %s\n", wp->NO , wp->expr);
+  return 0;
+}
+
+static int cmd_d(char *args){
+  if(args == NULL){
+    printf("Delete needs NO of watchpoint!\n");
+    return 0;
+  }
+  int no = atoi(args);
+  free_wp(no);
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -111,6 +131,8 @@ static struct {
   { "info", "Generic command for showing things about the program being debugged" , cmd_info },
   { "x", "Examine memory" , cmd_x},
   { "p", "Print value of expression EXP" , cmd_p},
+  { "w", "Set a watchpoint for an expression" , cmd_w},
+  { "d", "Delete the NO watchpoint" , cmd_d},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))

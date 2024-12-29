@@ -22,7 +22,11 @@ typedef struct {
   char str[OP_STR_SIZE];
 } Operand;
 
+#ifdef RISCV
 #include "isa/decode.h"
+#else 
+#include "isa/riscv32/include/isa/decode.h"
+#endif
 
 typedef struct {
   uint32_t opcode;

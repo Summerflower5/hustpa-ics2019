@@ -2,6 +2,7 @@
 
 // U
 make_EHelper(lui);
+make_EHelper(auipc);
 
 //I
 make_EHelper(addi);

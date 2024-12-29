@@ -31,6 +31,7 @@ make_DHelper(U) {
 
 make_DHelper(I) {
   #ifdef TEST_ADDI
+  // test signed extension
   decinfo.isa.instr.simm11_0 = 0x800;
   #endif
   
@@ -38,9 +39,9 @@ make_DHelper(I) {
   decode_op_i(id_src2, (((int)decinfo.isa.instr.simm11_0<<20))>>20, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   
-  print_Dop(id_src->str, OP_STR_SIZE, "rs1: 0x%-8x", id_src->reg);
-  print_Dop(id_src2->str, OP_STR_SIZE, "imm: 0x%-8x", id_src2->imm);
-  print_Dop(id_dest->str, OP_STR_SIZE, "rd: 0x%-8x", id_dest->reg);
+  print_Dop(id_src->str, OP_STR_SIZE, "rs1: 0x%-8x", id_src->val);
+  print_Dop(id_src2->str, OP_STR_SIZE, "imm: 0x%-8x", id_src2->val);
+  print_Dop(id_dest->str, OP_STR_SIZE, "rd: 0x%-8x", id_dest->val);
 }
 
 make_DHelper(ld) {

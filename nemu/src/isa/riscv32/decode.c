@@ -44,6 +44,14 @@ make_DHelper(I) {
   print_Dop(id_dest->str, OP_STR_SIZE, " rd: 0x%-8x", id_dest->val);
 }
 
+make_DHelper(J){
+  int imm = (decinfo.isa.instr.simm20<<20) | (decinfo.isa.instr.imm10_1<<1) | (decinfo.isa.instr.imm11_<<11) | (decinfo.isa.instr.imm19_12<<12) ;
+  decode_op_i(id_src, imm, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+
+  print_Dop(id_src->str, OP_STR_SIZE, " offset: 0x%-8x", id_src->val);
+}
+
 make_DHelper(ld) {
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);

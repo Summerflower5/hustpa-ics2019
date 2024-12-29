@@ -7,6 +7,9 @@ make_EHelper(auipc);
 //I
 make_EHelper(addi);
 
+//J
+make_EHelper(jal);
+
 make_EHelper(ld);
 make_EHelper(st);
 

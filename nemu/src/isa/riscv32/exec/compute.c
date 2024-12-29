@@ -24,7 +24,7 @@ make_EHelper(jal){
   rtl_sr(id_dest->reg, &id_dest->val, 4);
 
   rtl_addi(&decinfo.jmp_pc, &cpu.pc, id_src->val);
-  rtl_j(decinfo.jmp_pc);
   Log("before: 0x%-8x , after: 0x%-8x , x[rd]: 0x%-8x", cpu.pc, decinfo.jmp_pc, reg_l(id_dest->reg));
+  rtl_j(decinfo.jmp_pc);
   print_asm_template2(jal);
 }

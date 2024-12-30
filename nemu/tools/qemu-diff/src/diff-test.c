@@ -1,7 +1,11 @@
 #include "common.h"
 #include <sys/prctl.h>
 #include <signal.h>
+#ifdef RISCV
 #include "isa.h"
+#else
+#include "isa/riscv32/include/isa.h"
+#endif
 
 bool gdb_connect_qemu(void);
 bool gdb_memcpy_to_qemu(uint32_t, void *, int);

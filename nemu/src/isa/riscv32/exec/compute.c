@@ -28,3 +28,14 @@ make_EHelper(jal){
   rtl_j(decinfo.jmp_pc);
   print_asm_template2(jal);
 }
+
+make_EHelper(jalr){
+  rtl_addi(&id_dest->val, &cpu.pc, 4);
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+
+  rtl_addi(&decinfo.jmp_pc, &id_src->val, id_src2->val);
+  decinfo.jmp_pc = decinfo.jmp_pc&(~1);
+
+  rtl_j(decinfo.jmp_pc);
+  print_asm_template3(jalr);
+}

@@ -39,9 +39,13 @@ make_DHelper(I) {
   decode_op_i(id_src2, (((int)decinfo.isa.instr.simm11_0<<20))>>20, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   
-  //print_Dop(id_src->str, OP_STR_SIZE, " rs1: 0x%-8x", id_src->val);
+  #ifdef DETAIL
+  print_Dop(id_src->str, OP_STR_SIZE, " rs1: 0x%-8x", id_src->val);
+  print_Dop(id_src2->str, OP_STR_SIZE, " imm: 0x%-8x", id_src2->val);
+  print_Dop(id_dest->str, OP_STR_SIZE, " rd: 0x%-8x", id_dest->val);
+  #else
   print_Dop(id_src2->str, OP_STR_SIZE, "0x%x", id_src2->val);
-  //print_Dop(id_dest->str, OP_STR_SIZE, " rd: 0x%-8x", id_dest->val);
+  #endif
 }
 
 make_DHelper(J){

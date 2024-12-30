@@ -17,8 +17,13 @@ void ref_isa_display(CPU_state *ref_r){
 }
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
-  ref_isa_display(ref_r);
-  return false;
+  for(int i = 0 ; i < 32 ; i++){
+    if(ref_r->gpr[i]._32 != reg_l(i)){
+      ref_isa_display(ref_r);
+      return false;
+    }
+  }
+  return true;
 }
 
 void isa_difftest_attach(void) {

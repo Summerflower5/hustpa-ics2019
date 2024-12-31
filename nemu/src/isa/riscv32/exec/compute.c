@@ -12,6 +12,21 @@ make_EHelper(addi){
   print_asm_template3(addi);
 }
 
+make_EHelper(I_instr){
+  switch (decinfo.isa.instr.funct3)
+  {
+  case 0x0:{  //addi
+    rtl_addi(&id_dest->val, &id_src->val, id_src2->val);
+    print_asm_template3(addi);
+    break;
+  }
+  
+  default:
+    break;
+  }
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
 make_EHelper(auipc){
   rtl_addi(&id_dest->val, &cpu.pc, id_src->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
@@ -38,4 +53,27 @@ make_EHelper(jalr){
   Log("before: 0x%-8x , after: 0x%-8x , x[rd]: 0x%-8x", cpu.pc, decinfo.jmp_pc, reg_l(id_dest->reg));
   rtl_j(decinfo.jmp_pc);
   print_asm_template3(jalr);
+}
+
+make_EHelper(R_instr){
+  switch (decinfo.isa.instr.funct3)
+  {
+  case 0x0:{  //add | sub | mul
+    switch (decinfo.isa.instr.funct7)
+    {
+    case 0x0:{
+      rtl_add(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(add);
+    }
+    
+    default:
+      break;
+    }
+    break;
+  }
+  
+  default:
+    break;
+  }
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
 }

@@ -7,9 +7,13 @@ make_EHelper(auipc);
 //I
 make_EHelper(addi);
 make_EHelper(jalr);
+make_EHelper(I_instr);
 
 //J
 make_EHelper(jal);
+
+//R
+make_EHelper(R_instr);
 
 make_EHelper(ld);
 make_EHelper(st);

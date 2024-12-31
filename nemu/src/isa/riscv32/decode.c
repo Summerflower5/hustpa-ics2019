@@ -44,7 +44,7 @@ make_DHelper(I) {
   print_Dop(id_src2->str, OP_STR_SIZE, " imm: 0x%-8x", id_src2->val);
   print_Dop(id_dest->str, OP_STR_SIZE, " rd: 0x%-8x", id_dest->val);
   #else
-  print_Dop(id_src->str, OP_STR_SIZE, "%d(%s)", id_src2->val, reg_name(id_src->reg, 4));
+  print_Dop(id_src2->str, OP_STR_SIZE, "%d", id_src2->val);
   #endif
 }
 

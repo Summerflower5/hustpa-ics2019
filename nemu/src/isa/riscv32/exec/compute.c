@@ -15,12 +15,16 @@ make_EHelper(addi){
 make_EHelper(I_instr){
   switch (decinfo.isa.instr.funct3)
   {
-  case 0x0:{  //addi
+  case 0b000:{  //addi
     rtl_addi(&id_dest->val, &id_src->val, id_src2->val);
     print_asm_template3(addi);
     break;
   }
-  
+  case 0b011:{  //sltiu
+    rtl_setrelop(RELOP_LTU, &id_dest->val, &id_src->val, &id_src2->val);
+    print_asm_template3(sltiu);
+    break;
+  }
   default:
     break;
   }
@@ -58,12 +62,18 @@ make_EHelper(jalr){
 make_EHelper(R_instr){
   switch (decinfo.isa.instr.funct3)
   {
-  case 0x0:{  //add | sub | mul
+  case 0b000:{  // add | sub | mul
     switch (decinfo.isa.instr.funct7)
     {
-    case 0x0:{
+    case 0x0:{  // add
       rtl_add(&id_dest->val, &id_src->val, &id_src2->val);
       print_asm_template3(add);
+      break;
+    }
+    case 0x20:{ // sub
+      rtl_sub(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(sub);
+      break;
     }
     
     default:
@@ -76,4 +86,23 @@ make_EHelper(R_instr){
     break;
   }
   rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
+make_EHelper(B_instr){
+  decinfo.jmp_pc = cpu.pc + id_dest->val;
+  switch (decinfo.isa.instr.funct3)
+  {
+  case 0b000:{  // beq | beqz
+    rtl_jrelop(RELOP_EQ, &id_src->val, &id_src2->val, decinfo.jmp_pc);
+    print_asm_template3(beq);
+    break;
+  }
+  case 0b001:{  // bne | bnez
+    rtl_jrelop(RELOP_NE, &id_src->val, &id_src2->val, decinfo.jmp_pc);
+    print_asm_template3(beq);
+    break;
+  }
+  default:
+    break;
+  }
 }

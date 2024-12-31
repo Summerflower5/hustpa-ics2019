@@ -15,6 +15,9 @@ make_EHelper(jal);
 //R
 make_EHelper(R_instr);
 
+//B
+make_EHelper(B_instr);
+
 make_EHelper(ld);
 make_EHelper(st);
 

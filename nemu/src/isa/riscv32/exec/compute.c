@@ -81,7 +81,48 @@ make_EHelper(R_instr){
     }
     break;
   }
-  
+  case 0b011:{  // sltu
+    switch (decinfo.isa.instr.funct7)
+    {
+    case 0x0:{  // sltu
+      rtl_setrelop(RELOP_LTU, &id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(sltu);
+      break;
+    }
+    
+    default:
+      break;
+    }
+    break;
+  }
+  case 0b100:{  // xor
+    switch (decinfo.isa.instr.funct7)
+    {
+    case 0x0:{  // xor
+      rtl_xor(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(xor);
+      break;
+    }
+    
+    default:
+      break;
+    }
+    break;
+  }
+  case 0b110:{  // or
+    switch (decinfo.isa.instr.funct7)
+    {
+    case 0x0:{  // or
+      rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(or);
+      break;
+    }
+    
+    default:
+      break;
+    }
+    break;
+  }
   default:
     break;
   }

@@ -154,6 +154,7 @@ make_EHelper(R_instr){
     default:
       break;
     }
+    break;
   }
   case 0b110:{  // or
     switch (decinfo.isa.instr.funct7)

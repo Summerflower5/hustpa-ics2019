@@ -25,6 +25,25 @@ make_EHelper(I_instr){
     print_asm_template3(sltiu);
     break;
   }
+  case 0b100:{  //xori
+    rtl_xori(&id_dest->val, &id_src->val, id_src2->val);
+    print_asm_template3(xori);
+    break;
+  }
+  case 0b101:{  //srai
+    if(decinfo.isa.instr.funct7 == 0x20){ //srai
+      rtl_sari(&id_dest->val, &id_src->val, id_src2->val & 0x1f);
+      print_asm_template3(srai);
+    }else {
+
+    }
+    break;
+  }
+  case 0b111:{  //andi
+    rtl_andi(&id_dest->val, &id_src->val, id_src2->val);
+    print_asm_template3(andi);
+    break;
+  }
   default:
     break;
   }
@@ -81,6 +100,20 @@ make_EHelper(R_instr){
     }
     break;
   }
+  case 0b001:{
+    switch (decinfo.isa.instr.funct7)
+    {
+    case 0x0:{  //sll
+      rtl_shl(&id_dest->val , &id_src->val , &id_src2->val);
+      print_asm_template3(sll);
+      break;
+    }
+    
+    default:
+      break;
+    }
+    break;
+  }
   case 0b011:{  // sltu
     switch (decinfo.isa.instr.funct7)
     {
@@ -115,6 +148,20 @@ make_EHelper(R_instr){
     case 0x0:{  // or
       rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
       print_asm_template3(or);
+      break;
+    }
+    
+    default:
+      break;
+    }
+    break;
+  }
+  case 0b111:{  //and
+    switch (decinfo.isa.instr.funct7)
+    {
+    case 0x0:{
+      rtl_and(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(and);
       break;
     }
     

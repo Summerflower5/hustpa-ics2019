@@ -162,7 +162,7 @@ make_EHelper(R_instr){
     }
     break;
   }
-  case 0b110:{  // or
+  case 0b110:{  // or | rem
     switch (decinfo.isa.instr.funct7)
     {
     case 0x0:{  // or
@@ -170,7 +170,11 @@ make_EHelper(R_instr){
       print_asm_template3(or);
       break;
     }
-    
+    case 0x1:{  // rem
+      rtl_idiv_r(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(rem);
+      break;
+    }
     default:
       break;
     }

@@ -204,6 +204,11 @@ make_EHelper(B_instr){
     print_asm_template3(beq);
     break;
   }
+  case 0b100:{  // blt
+    rtl_jrelop(RELOP_LT, &id_src->val, &id_src2->val, decinfo.jmp_pc);
+    print_asm_template3(blt);
+    break;
+  }
   case 0b101:{  // bge
     rtl_jrelop(RELOP_GE, &id_src->val, &id_src2->val, decinfo.jmp_pc);
     print_asm_template3(bge);

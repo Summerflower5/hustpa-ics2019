@@ -116,6 +116,20 @@ make_EHelper(R_instr){
     }
     break;
   }
+  case 0b010:{  //slt
+    switch (decinfo.isa.instr.funct7)
+    {
+    case 0x0:{  //slt
+      rtl_setrelop(RELOP_LT, &id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(slt);
+      break;
+    }
+    
+    default:
+      break;
+    }
+    break;
+  }
   case 0b011:{  // sltu
     switch (decinfo.isa.instr.funct7)
     {

@@ -94,9 +94,11 @@ make_EHelper(R_instr){
       print_asm_template3(sub);
       break;
     }
-    
-    default:
+    default:{ // mul
+      rtl_imul_lo(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(mul);
       break;
+    }
     }
     break;
   }
@@ -128,7 +130,7 @@ make_EHelper(R_instr){
     }
     break;
   }
-  case 0b100:{  // xor
+  case 0b100:{  // xor | div
     switch (decinfo.isa.instr.funct7)
     {
     case 0x0:{  // xor
@@ -136,7 +138,11 @@ make_EHelper(R_instr){
       print_asm_template3(xor);
       break;
     }
-    
+    case 0x1:{  // div
+      rtl_idiv_q(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(div);
+      break;
+    }
     default:
       break;
     }

@@ -254,6 +254,11 @@ make_EHelper(B_instr){
     print_asm_template3(bge);
     break;
   }
+  case 0b110:{  // bltu
+    rtl_jrelop(RELOP_LTU, &id_src->val, &id_src2->val, decinfo.jmp_pc);
+    print_asm_template3(bltu);
+    break;
+  }
   default:
     break;
   }

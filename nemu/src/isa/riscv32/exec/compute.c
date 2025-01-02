@@ -20,6 +20,11 @@ make_EHelper(I_instr){
     print_asm_template3(addi);
     break;
   }
+  case 0b001:{  //slli
+    rtl_shli(&id_dest->val, &id_src->val, id_src2->val);
+    print_asm_template3(slli);
+    break;
+  }
   case 0b011:{  //sltiu
     rtl_setrelop(RELOP_LTU, &id_dest->val, &id_src->val, &id_src2->val);
     print_asm_template3(sltiu);
@@ -30,12 +35,13 @@ make_EHelper(I_instr){
     print_asm_template3(xori);
     break;
   }
-  case 0b101:{  //srai
+  case 0b101:{  //srai | srli
     if(decinfo.isa.instr.funct7 == 0x20){ //srai
       rtl_sari(&id_dest->val, &id_src->val, id_src2->val & 0x1f);
       print_asm_template3(srai);
-    }else {
-
+    }else {     // srli
+      rtl_shri(&id_dest->val, &id_src->val, id_src2->val);
+      print_asm_template3(srli);
     }
     break;
   }

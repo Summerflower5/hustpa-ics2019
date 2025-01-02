@@ -172,15 +172,21 @@ make_EHelper(R_instr){
     }
     break;
   }
-  case 0b101:{  // srl
+  case 0b101:{  // srl | sra
     switch (decinfo.isa.instr.funct7)
     {
     case 0x0:{  //srl
-      rtl_shr(&id_dest->val, &id_src->val, &id_src2->val);
+      s0 = id_src2->val & 0x0000001f;
+      rtl_shr(&id_dest->val, &id_src->val, &s0);
       print_asm_template3(srl);
       break;
     }
-    
+    case 0x20:{ //sra
+      s0 = id_src2->val & 0x0000001f;
+      rtl_sar(&id_dest->val, &id_src->val, &s0);
+      print_asm_template3(sra);
+      break;
+    }
     default:
       break;
     }

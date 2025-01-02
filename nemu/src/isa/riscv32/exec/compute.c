@@ -116,7 +116,11 @@ make_EHelper(R_instr){
       print_asm_template3(sll);
       break;
     }
-    
+    case 0x1:{  //mulh
+      rtl_imul_hi(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(mulh);
+      break;
+    }
     default:
       break;
     }

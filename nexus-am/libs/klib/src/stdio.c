@@ -59,7 +59,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         int n = strlen(s2);
         memcpy(out+pos, s2, n);
         pos += n;
-        format = 0;
+        format = 0; // ignored
         break;
       }
       default:

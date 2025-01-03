@@ -51,6 +51,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         int n = _itoa(va_arg(ap, int), buf);
         memcpy(out+pos, buf, n);
         pos += n;
+        format = 0;
         break;
       }
       case 's':{
@@ -58,6 +59,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         int n = strlen(s2);
         memcpy(out+pos, s2, n);
         pos += n;
+        format = 0;
         break;
       }
       default:

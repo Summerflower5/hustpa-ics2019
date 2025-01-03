@@ -3,6 +3,8 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+#define MAXN 65536
+
 int _i2a(int num, char buf[32], int radix){
   static const char s[] = "0123456789abcdef";
   char *dst = buf;
@@ -35,6 +37,16 @@ int _itoa(int num, char buf[32]){
 }
 
 int printf(const char *fmt, ...) {
+  va_list vl;
+  va_start(vl, fmt);
+
+  char out[MAXN]; 
+  int length = vsprintf(out, fmt, vl);
+  for(int i = 0; i < length; i++) {
+    _putc(out[i]);
+  }
+  va_end(vl);
+
   return 0;
 }
 

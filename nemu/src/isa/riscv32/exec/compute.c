@@ -51,6 +51,7 @@ make_EHelper(I_instr){
     break;
   }
   default:
+    assert(0);
     break;
   }
   rtl_sr(id_dest->reg, &id_dest->val, 4);
@@ -225,6 +226,7 @@ make_EHelper(R_instr){
     break;
   }
   default:
+    assert(0);
     break;
   }
   rtl_sr(id_dest->reg, &id_dest->val, 4);
@@ -259,7 +261,13 @@ make_EHelper(B_instr){
     print_asm_template3(bltu);
     break;
   }
+  case 0b111:{  // bgeu
+    rtl_jrelop(RELOP_GEU, &id_src->val, &id_src2->val, decinfo.jmp_pc);
+    print_asm_template3(bgeu);
+    break;
+  }
   default:
+    assert(0);
     break;
   }
 }

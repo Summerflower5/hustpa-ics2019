@@ -74,6 +74,14 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         format = 0; // ignored
         break;
       }
+      case 'x':{
+        char buf[32];
+        int n = _i2a(va_arg(ap, int), buf, 16);
+        memcpy(out+pos, buf, n);
+        pos += n;
+        format = 0;
+        break;
+      }
       default:
         break;
       }

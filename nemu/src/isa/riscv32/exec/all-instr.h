@@ -21,6 +21,7 @@ make_EHelper(B_instr);
 make_EHelper(ld);
 make_EHelper(st);
 make_EHelper(lh);
+make_EHelper(lb);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);

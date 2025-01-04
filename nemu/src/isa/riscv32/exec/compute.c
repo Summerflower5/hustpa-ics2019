@@ -45,6 +45,11 @@ make_EHelper(I_instr){
     }
     break;
   }
+  case 0b110:{  // ori
+    rtl_ori(&id_dest->val, &id_src->val, id_src2->val);
+    print_asm_template3(ori);
+    break;
+  }
   case 0b111:{  //andi
     rtl_andi(&id_dest->val, &id_src->val, id_src2->val);
     print_asm_template3(andi);
@@ -173,13 +178,18 @@ make_EHelper(R_instr){
     }
     break;
   }
-  case 0b101:{  // srl | sra
+  case 0b101:{  // srl | sra | divu
     switch (decinfo.isa.instr.funct7)
     {
     case 0x0:{  //srl
       s0 = id_src2->val & 0x0000001f;
       rtl_shr(&id_dest->val, &id_src->val, &s0);
       print_asm_template3(srl);
+      break;
+    }
+    case 0x1:{  //divu
+      rtl_div_q(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(divu);
       break;
     }
     case 0x20:{ //sra

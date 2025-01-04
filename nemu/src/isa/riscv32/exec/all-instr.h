@@ -25,3 +25,5 @@ make_EHelper(lb);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);
+
+make_EHelper(csr);

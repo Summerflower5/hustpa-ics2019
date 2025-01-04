@@ -221,7 +221,7 @@ make_EHelper(R_instr){
     }
     break;
   }
-  case 0b111:{  //and
+  case 0b111:{  //and | remu
     switch (decinfo.isa.instr.funct7)
     {
     case 0x0:{
@@ -229,7 +229,11 @@ make_EHelper(R_instr){
       print_asm_template3(and);
       break;
     }
-    
+    case 0x1:{
+      rtl_div_r(&id_dest->val, &id_src->val, &id_src2->val);
+      print_asm_template3(remu);
+      break;
+    }
     default:
       break;
     }

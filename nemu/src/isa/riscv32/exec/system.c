@@ -47,7 +47,7 @@ make_EHelper(csr){
     }
     case 0b001:{    //csrrw
         s0 = read_csr(decinfo.isa.instr.csr);
-        write_csr(decinfo.isa.instr.csr, s0);
+        write_csr(decinfo.isa.instr.csr, id_src->val);
         rtl_sr(id_dest->reg, &s0, 4);
         break;
     }

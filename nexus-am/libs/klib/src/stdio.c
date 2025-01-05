@@ -9,7 +9,7 @@ int _i2a(int num, char buf[32], int radix){
   static const char s[] = "0123456789abcdef";
   char *dst = buf;
   int n = num , R = radix;
-  if(n < 0){
+  if(n < 0 && radix == 10){
     *dst++ = '-';
     n = -num;
   } 

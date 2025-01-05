@@ -4,6 +4,7 @@ static _Context* do_event(_Event e, _Context* c) {
   switch (e.event) {
     case _EVENT_YIELD:{
       printf("EVENT YIELD TRAP!\n");
+      break;
     }
     default: panic("Unhandled event ID = %d", e.event);
   }

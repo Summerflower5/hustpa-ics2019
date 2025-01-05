@@ -41,8 +41,15 @@ inline void write_csr(uint32_t csr, uint32_t val){
 make_EHelper(csr){
     switch (decinfo.isa.instr.funct3)
     {
-    case 0b000:{    //ecall
-        raise_intr(reg_l(17), decinfo.seq_pc-4);
+    case 0b000:{    //ecall | sret
+        if(decinfo.isa.instr.funct7 == 0x0){    //ecall
+            raise_intr(reg_l(17), decinfo.seq_pc-4);
+        }else if(decinfo.isa.instr.funct7 == 0x8){  //sret
+            decinfo.jmp_pc = decinfo.isa.sepc + 4;
+            rtl_j(decinfo.jmp_pc);
+        }else {
+            assert(0);
+        }
         break;
     }
     case 0b001:{    //csrrw

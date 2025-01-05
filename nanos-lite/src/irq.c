@@ -6,6 +6,10 @@ static _Context* do_event(_Event e, _Context* c) {
       printf("EVENT YIELD TRAP!\n");
       break;
     }
+    case _EVENT_SYSCALL:{
+      do_syscall(c);
+      break;
+    }
     default: panic("Unhandled event ID = %d", e.event);
   }
 

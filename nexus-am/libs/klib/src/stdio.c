@@ -8,12 +8,12 @@
 int _i2a(int num, char buf[32], int radix){
   static const char s[] = "0123456789abcdef";
   char *dst = buf;
-  int n = num , R = radix;
-  if(n < 0 && radix == 10){
+  uint32_t n = num , R = radix;
+  if(num < 0 && radix == 10){
     *dst++ = '-';
     n = -num;
   } 
-  if(n >= 0 && n < 10){
+  if(n < 10){
     *dst++ = s[n];
     *dst = '\0';
   }else {

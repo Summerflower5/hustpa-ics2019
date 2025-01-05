@@ -13,7 +13,7 @@ int _i2a(int num, char buf[32], int radix){
     *dst++ = '-';
     n = -num;
   } 
-  if(n < 10){
+  if(n >= 0 && n < 10){
     *dst++ = s[n];
     *dst = '\0';
   }else {

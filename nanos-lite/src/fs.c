@@ -38,7 +38,7 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stderr", 0, 0, 0, invalid_read, serial_write},
   {"/dev/events", 0, 0, 0, events_read, invalid_write},
   {"/dev/fb", 0, 0, 0, invalid_read, fb_write},
-  {"/dev/fbsync", 0, 0, invalid_read, fbsync_write},
+  {"/dev/fbsync", 0, 0, 0, invalid_read, fbsync_write},
   {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
 #include "files.h"
 };
@@ -94,7 +94,6 @@ size_t fs_write(int fd, const void *buf, size_t len){
         len = 0;
       }
     }
-    printf("fd %d write %d bytes at %d\n",fd , len, file_table[fd].disk_offset + file_table[fd].open_offset);
     ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   }else {
     len = file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);

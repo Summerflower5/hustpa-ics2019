@@ -94,6 +94,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
         len = 0;
       }
     }
+    //printf("fd %d write %d bytes at %u\n",fd , len, file_table[fd].disk_offset + file_table[fd].open_offset);
     ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   }else {
     len = file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);

@@ -1,5 +1,7 @@
 #include "fs.h"
 
+extern size_t serial_write(const void *buf, size_t offset, size_t len);
+
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
@@ -27,8 +29,8 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, 0, invalid_read, invalid_write},
-  {"stdout", 0, 0, 0, invalid_read, invalid_write},
-  {"stderr", 0, 0, 0, invalid_read, invalid_write},
+  {"stdout", 0, 0, 0, invalid_read, serial_write},
+  {"stderr", 0, 0, 0, invalid_read, serial_write},
 #include "files.h"
 };
 
@@ -50,15 +52,19 @@ int fs_open(const char *pathname, int flags, int mode){
 
 size_t fs_read(int fd, void *buf, size_t len){
   assert(fd > 2 && fd < NR_FILES);
-  if(file_table[fd].open_offset + len > file_table[fd].size){
-    if(file_table[fd].open_offset < file_table[fd].size){
-      len = file_table[fd].size - file_table[fd].open_offset;
-    }else {
-      len = 0;
-    }
-  }
 
-  ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  if(file_table[fd].read == NULL){
+    if(file_table[fd].open_offset + len > file_table[fd].size){
+      if(file_table[fd].open_offset < file_table[fd].size){
+        len = file_table[fd].size - file_table[fd].open_offset;
+      }else {
+        len = 0;
+      }
+    }
+    ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  }else {
+    len = file_table[fd].read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  }
 
   file_table[fd].open_offset += len;
 
@@ -68,22 +74,19 @@ size_t fs_read(int fd, void *buf, size_t len){
 size_t fs_write(int fd, const void *buf, size_t len){
   assert(fd >= 0);
   if(fd == 0) return len;
-  if(fd == 1 || fd == 2){
-    for(size_t i = 0 ; i < len ; i++){
-      _putc(((const char *)buf)[i]);
-    }
-    return len;
-  }
 
-  if(file_table[fd].open_offset + len > file_table[fd].size){
-    if(file_table[fd].open_offset < file_table[fd].size){
-      len = file_table[fd].size - file_table[fd].open_offset;
-    }else {
-      len = 0;
+  if(file_table[fd].write == NULL){
+    if(file_table[fd].open_offset + len > file_table[fd].size){
+      if(file_table[fd].open_offset < file_table[fd].size){
+        len = file_table[fd].size - file_table[fd].open_offset;
+      }else {
+        len = 0;
+      }
     }
+    ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  }else {
+    len = file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   }
-
-  ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
 
   file_table[fd].open_offset += len;
 

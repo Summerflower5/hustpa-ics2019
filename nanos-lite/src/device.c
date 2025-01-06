@@ -2,6 +2,7 @@
 #include <amdev.h>
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
+  Log("serial_write is called!");
   for(int i = 0 ; i < len ; i++){
     _putc(((const char*)buf)[i]);
   }

@@ -10,6 +10,7 @@ int sys_open(const char *pathname, int flags, int mode);
 size_t sys_read(int fd, void *buf, size_t len);
 size_t sys_lseek(int fd, size_t offset, int whence);
 int sys_close(int fd);
+int sys_execve(const char *fname, char * const argv[], char *const envp[]);
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
@@ -52,6 +53,10 @@ _Context* do_syscall(_Context *c) {
       c->GPRx = sys_close(a[1]);
       break;
     }
+    case SYS_execve:{
+      sys_execve(a[1], a[2], a[3]);
+      break;
+    }
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
@@ -63,7 +68,7 @@ void sys_yield(){
 }
 
 void sys_exit(int code){
-  _halt(code);
+  sys_execve("/bin/init", NULL, NULL);
 }
 
 size_t sys_write(int fd, void* buf, size_t count){
@@ -96,4 +101,9 @@ size_t sys_lseek(int fd, size_t offset, int whence){
 
 int sys_close(int fd){
   return fs_close(fd);
+}
+
+int sys_execve(const char *fname, char * const argv[], char *const envp[]){
+  naive_uload(NULL, fname);
+  return 0;
 }
